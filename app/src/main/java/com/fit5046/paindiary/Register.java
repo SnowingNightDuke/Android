@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,38 +29,48 @@ public class Register extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
+        binding.progressBar2.setVisibility(View.GONE);
         mAuth = FirebaseAuth.getInstance();
 
         binding.regButton.setOnClickListener(v -> {
-            if (binding.passwordBox.getText().toString().equals(binding.confirmBox.getText().toString())){
-                String email = binding.emailBox.getText().toString().trim();
-                String password = binding.passwordBox.getText().toString().trim();
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success");
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        updateUI(user);
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        Toast.makeText(Register.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                        updateUI(null);
-                    }
-                });
-            }
+            register();
         });
+    }
+
+    private void register(){
+        if (binding.passwordBox.getText().toString().equals(binding.confirmBox.getText().toString())){
+            String email = binding.emailBox.getText().toString().trim();
+            String password = binding.passwordBox.getText().toString().trim();
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "createUserWithEmail:success");
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    updateUI(user);
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                    Toast.makeText(Register.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show();
+                    binding.progressBar2.setVisibility(View.GONE);
+                    updateUI(null);
+                }
+
+            });
+        }
+        else if (binding.passwordBox.getText().toString().length() < 6) {
+            binding.passwordBox.setError("password must has at least 6 characters!");
+        }
+        //if (!Patterns.EMAIL_ADDRESS.matcher(email))
     }
 
     public void updateUI(FirebaseUser user){
         if (user != null) {
-            Toast.makeText(this, "You signed", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Successfully Signed Up.", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, MainActivity.class));
         }
         else {
-            Toast.makeText(this,"Signed failed",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Sign up failed.",Toast.LENGTH_LONG).show();
         }
     }
 
