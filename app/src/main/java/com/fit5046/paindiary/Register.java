@@ -49,6 +49,8 @@ public class Register extends AppCompatActivity {
                         updateUI(null);
                     }
                 });
+            }else {
+                binding.confirmBox.setError("Password Unmatched!");
             }
         });
     }
