@@ -46,17 +46,20 @@ public class Register extends AppCompatActivity {
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
                         Toast.makeText(Register.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
+                        updateUI(null);
                     }
                 });
-            }else {
-                binding.confirmBox.setError("Password Unmatched!");
             }
         });
     }
 
     public void updateUI(FirebaseUser user){
         if (user != null) {
+            Toast.makeText(this, "You signed", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, MainActivity.class));
+        }
+        else {
+            Toast.makeText(this,"Signed failed",Toast.LENGTH_LONG).show();
         }
     }
 
