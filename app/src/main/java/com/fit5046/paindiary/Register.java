@@ -59,18 +59,19 @@ public class Register extends AppCompatActivity {
             });
         }
         else if (binding.passwordBox.getText().toString().length() < 6) {
-            binding.passwordBox.setError("password must has at least 6 characters!");
+            binding.passwordBox.setError("Password must have at least 6 characters!");
         }
-        //if (!Patterns.EMAIL_ADDRESS.matcher(email))
+        //TODO: if (!Patterns.EMAIL_ADDRESS.matcher(email))
+
+        //TODO: be added some validation methods
+
+        //TODO: password visibility configuration
     }
 
     public void updateUI(FirebaseUser user){
         if (user != null) {
             Toast.makeText(this, "Successfully Signed Up.", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, MainActivity.class));
-        }
-        else {
-            Toast.makeText(this,"Sign up failed.",Toast.LENGTH_LONG).show();
         }
     }
 
