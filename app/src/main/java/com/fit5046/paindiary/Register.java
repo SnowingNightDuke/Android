@@ -33,39 +33,40 @@ public class Register extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         binding.regButton.setOnClickListener(v -> {
-            register();
+            binding.progressBar2.setVisibility(View.VISIBLE);
+            String email = binding.emailBox.getText().toString().trim();
+            String password = binding.passwordBox.getText().toString().trim();
+            register(email, password);
         });
     }
 
-    private void register(){
-        if (binding.passwordBox.getText().toString().equals(binding.confirmBox.getText().toString())){
-            String email = binding.emailBox.getText().toString().trim();
-            String password = binding.passwordBox.getText().toString().trim();
+    private void register(String email, String password){
+        if (binding.confirmBox.getText().toString().equals(password)){
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success");
                     FirebaseUser user = mAuth.getCurrentUser();
                     updateUI(user);
                 } else {
-                    // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
                     Toast.makeText(Register.this, "Authentication failed.",
                             Toast.LENGTH_SHORT).show();
                     binding.progressBar2.setVisibility(View.GONE);
                     updateUI(null);
                 }
-
             });
         }
-        else if (binding.passwordBox.getText().toString().length() < 6) {
+        else if (password.length() < 6) {
             binding.passwordBox.setError("Password must have at least 6 characters!");
+        } else {
+            binding.confirmBox.setError("Incompatible Password");
         }
+
         //TODO: if (!Patterns.EMAIL_ADDRESS.matcher(email))
 
-        //TODO: be added some validation methods
+        //TODO: be added some validation methods (considering if user input includes white spaces)
 
-        //TODO: password visibility configuration
+        //TODO: password visibility configuration (As above)
     }
 
     public void updateUI(FirebaseUser user){
