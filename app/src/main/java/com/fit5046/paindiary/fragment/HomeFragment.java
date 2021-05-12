@@ -20,7 +20,8 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public View onCreate(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeBinding = HomeFragmentBinding.inflate(inflater, container, false);
         View view = homeBinding.getRoot();
         return view;

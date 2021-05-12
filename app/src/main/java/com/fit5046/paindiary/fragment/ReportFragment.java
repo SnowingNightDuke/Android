@@ -17,7 +17,7 @@ public class ReportFragment extends Fragment {
     public ReportFragment() {
 
     }
-    public View onCreate(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateVire(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         reportBinding = MapFragmentBinding.inflate(inflater, container, false);
         View view = reportBinding.getRoot();
         return view;
