@@ -13,7 +13,7 @@
         android:theme="@style/Theme.PainDiary">
         <activity android:name=".Home"></activity>
         <activity android:name=".Register" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:theme="@style/Theme.PainDiary.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
