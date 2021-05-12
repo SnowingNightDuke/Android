@@ -17,6 +17,7 @@ public class RecordFragment extends Fragment {
     public RecordFragment() {
 
     }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         recordBinding = MapFragmentBinding.inflate(inflater, container, false);
         View view = recordBinding.getRoot();

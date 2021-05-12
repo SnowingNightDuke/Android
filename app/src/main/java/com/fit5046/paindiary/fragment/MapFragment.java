@@ -18,6 +18,7 @@ public class MapFragment extends Fragment {
     public MapFragment() {
 
     }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mapBinding = MapFragmentBinding.inflate(inflater, container, false);
         View view = mapBinding.getRoot();
