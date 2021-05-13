@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="200dp"
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -12,14 +12,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@mipmap/ic_launcher_round" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pain Dairy"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+        android:text=" Pain Dairy"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textColor="#9161E4"
+        android:textSize="30sp" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Daily Pain Recorder" />
+        android:text="  Your Daily Pain Recorder"
+        android:textColor="#4359D1"
+        android:textSize="20sp" />
 </LinearLayout>
