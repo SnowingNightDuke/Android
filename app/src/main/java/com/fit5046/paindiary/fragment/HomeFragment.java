@@ -25,11 +25,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment {
-    private SharedViewModel model;
     private HomeFragmentBinding homeBinding;
-    private EditText cityZipText;
-    private TextView weatherTextView;
-    private String apiUrl = "api.openweathermap.org/data/2.5/weather?zip={zip code},{country code}&appid={9624252aaae11d280ad030a092b155d5}";
     private String apikey = "9624252aaae11d280ad030a092b155d5";
     public HomeFragment(){
 
@@ -47,14 +43,14 @@ public class HomeFragment extends Fragment {
 
 
     public void getWeather(){
-        String zip = cityZipText.getText().toString().trim();// + ",au";
+        String cityZip = homeBinding.cityZipText.getText().toString().trim() + ",au";
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.openweathermap.org/data/2.5/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WeatherAPI api = retrofit.create(WeatherAPI.class);
-        Call<Weather> weather = api.getWeather(zip, apikey);
-        weather.enqueue(new Callback<Weather>() {
+        Call<Weather> weatherCall = api.getWeather(cityZip, apikey);
+        weatherCall.enqueue(new Callback<Weather>() {
             @Override
             public void onResponse(Call<Weather> call, Response<Weather> response) {
                 if (response.code() == 404){
@@ -65,13 +61,13 @@ public class HomeFragment extends Fragment {
                 Weather data = response.body();
                 Main main = data.getMain();
                 Double absTemp = main.getTemp();
-                Integer temp = (int)(absTemp - 273.15);
-                weatherTextView.setText(temp + "°C");
+                int temp = (int)(absTemp - 273.15);
+                homeBinding.weatherTextView.setText(temp + "°C");
             }
 
             @Override
             public void onFailure(Call<Weather> call, Throwable t) {
-
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -81,6 +77,5 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         homeBinding = null;
     }
-
 
 }

@@ -18,6 +18,7 @@ public class EntryFragment extends Fragment {
     public EntryFragment(){
 
     }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         entryBinding = EntryFragmentBinding.inflate(inflater, container, false);
         View view = entryBinding.getRoot();
