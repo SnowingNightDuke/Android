@@ -1,11 +1,11 @@
 
 package com.fit5046.paindiary.api;
 
-//import javax.annotation.Generated;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-//@Generated("jsonschema2pojo")
+
 public class Main {
 
     @SerializedName("temp")

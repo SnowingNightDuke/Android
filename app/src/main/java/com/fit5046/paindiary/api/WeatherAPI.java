@@ -1,4 +1,4 @@
-package com.fit5046.paindiary;
+package com.fit5046.paindiary.api;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

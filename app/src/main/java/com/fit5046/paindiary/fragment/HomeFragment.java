@@ -4,19 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.fit5046.paindiary.Home;
-import com.fit5046.paindiary.Weather;
-import com.fit5046.paindiary.WeatherAPI;
+import com.fit5046.paindiary.api.Weather;
+import com.fit5046.paindiary.api.WeatherAPI;
 import com.fit5046.paindiary.api.Main;
 import com.fit5046.paindiary.databinding.HomeFragmentBinding;
-import com.fit5046.paindiary.viewmodel.SharedViewModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,8 +56,14 @@ public class HomeFragment extends Fragment {
                 Weather data = response.body();
                 Main main = data.getMain();
                 Double absTemp = main.getTemp();
+                int humidity = main.getHumidity();
+                int pressure = main.getPressure();
                 int temp = (int)(absTemp - 273.15);
-                homeBinding.weatherTextView.setText(temp + "°C");
+                String weather = "Temperature: " + temp + "°C\n"
+                                + "Humidity: " + humidity + "%\n"
+                                + "Pressure: " + pressure + "mb";
+
+                homeBinding.weatherTextView.setText(weather);
             }
 
             @Override

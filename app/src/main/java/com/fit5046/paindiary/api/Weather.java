@@ -1,4 +1,4 @@
-package com.fit5046.paindiary;
+package com.fit5046.paindiary.api;
 
 import com.fit5046.paindiary.api.Main;
 import com.google.gson.annotations.SerializedName;
