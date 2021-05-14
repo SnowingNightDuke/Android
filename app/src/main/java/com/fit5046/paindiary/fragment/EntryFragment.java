@@ -32,7 +32,7 @@ public class EntryFragment extends Fragment {
         entryBinding.editButton.setOnClickListener(v -> {
             entryBinding.saveButton.setEnabled(true);
             entryBinding.editButton.setEnabled(false);
-            editingSwitcher(true);
+            editingSwitcher(false);
         });
         entryBinding.saveButton.setOnClickListener(v -> {
             save();
@@ -41,15 +41,13 @@ public class EntryFragment extends Fragment {
     }
 
     private void save() {
-        boolean success = false;
         //TODO: validate if all the required data has been input in field respectively
         if (validation()) {
-            success = true;
-        }
-        if (success) {
             Toast.makeText(getContext(), "Successfully saved", Toast.LENGTH_LONG).show();
             //TODO: Disable input and pass data to room
             editingSwitcher(true);
+            entryBinding.saveButton.setEnabled(false);
+            entryBinding.editButton.setEnabled(true);
             sendData();
         } else {
             Toast.makeText(getContext(), "Save Failed", Toast.LENGTH_LONG).show();
@@ -64,8 +62,6 @@ public class EntryFragment extends Fragment {
         entryBinding.locationSpinner.setEnabled(!switcher);
         entryBinding.moodRatingBar.setEnabled(!switcher);
         entryBinding.stepEditText.setEnabled(!switcher);
-        entryBinding.saveButton.setEnabled(!switcher);
-        entryBinding.editButton.setEnabled(switcher);
     }
 
     private boolean validation() {
