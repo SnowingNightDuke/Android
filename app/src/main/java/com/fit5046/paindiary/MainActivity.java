@@ -39,7 +39,13 @@ public class MainActivity extends AppCompatActivity {
         binding.loginButton.setOnClickListener(v -> {
             String email = binding.emailBox.getText().toString().trim();
             String password = binding.passwordBox.getText().toString().trim();
-            login(email, password);
+            if (!email.equals("") && !password.equals("")) {
+                login(email, password);
+            } else if (email.equals("")) {
+            binding.emailBox.setError("Please enter your email");
+            } else if (password.equals("")) {
+            binding.passwordBox.setError("Please enter your password");
+            }
         });
     }
 

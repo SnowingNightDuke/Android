@@ -36,7 +36,6 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-
     public void getWeather(){
         String cityZip = homeBinding.cityZipText.getText().toString().trim() + ",au";
         Retrofit retrofit = new Retrofit.Builder()
@@ -49,16 +48,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<Weather> call, Response<Weather> response) {
                 if (response.code() == 404){
-                    Toast.makeText(getContext(), "Zipcode not found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Postcode not found", Toast.LENGTH_LONG).show();
                 } else if (!(response.isSuccessful())) {
                     Toast.makeText(getContext(), response.code(), Toast.LENGTH_LONG).show();
                 }
                 Weather data = response.body();
                 Main main = data.getMain();
                 Double absTemp = main.getTemp();
+                int temp = (int)(absTemp - 273.15);
                 int humidity = main.getHumidity();
                 int pressure = main.getPressure();
-                int temp = (int)(absTemp - 273.15);
                 String weather = "Temperature: " + temp + "°C\n"
                                 + "Humidity: " + humidity + "%\n"
                                 + "Pressure: " + pressure + "mb";
