@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private FirebaseAuth mAuth;
     private static final String TAG = "MainActivity";
-
+    public String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.loginButton.setOnClickListener(v -> {
-            String email = binding.emailBox.getText().toString().trim();
+            email = binding.emailBox.getText().toString().trim();
             String password = binding.passwordBox.getText().toString().trim();
             if (!email.equals("") && !password.equals("")) {
                 login(email, password);
