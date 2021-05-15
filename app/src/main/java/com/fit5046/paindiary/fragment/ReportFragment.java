@@ -93,6 +93,9 @@ public class ReportFragment extends Fragment {
         });
         reportBinding.anyChartView.setVisibility(View.INVISIBLE);
         reportBinding.donutView.setVisibility(View.INVISIBLE);
+        reportBinding.startText.setVisibility(View.VISIBLE);
+        reportBinding.endText.setVisibility(View.VISIBLE);
+        reportBinding.weatherText.setVisibility(View.VISIBLE);
         reportBinding.startDateButton.setVisibility(View.VISIBLE);
         reportBinding.endDateButton.setVisibility(View.VISIBLE);
         reportBinding.weatherSpinner.setVisibility(View.VISIBLE);
@@ -235,6 +238,9 @@ public class ReportFragment extends Fragment {
     public void setupDonutChart() {
         reportBinding.anyChartView.setVisibility(View.INVISIBLE);
         reportBinding.startDateButton.setVisibility(View.INVISIBLE);
+        reportBinding.startText.setVisibility(View.INVISIBLE);
+        reportBinding.endText.setVisibility(View.INVISIBLE);
+        reportBinding.weatherText.setVisibility(View.INVISIBLE);
         reportBinding.endDateButton.setVisibility(View.INVISIBLE);
         reportBinding.weatherSpinner.setVisibility(View.INVISIBLE);
 
@@ -258,6 +264,9 @@ public class ReportFragment extends Fragment {
     public void setupPieChart() {
         reportBinding.donutView.setVisibility(View.INVISIBLE);
         reportBinding.startDateButton.setVisibility(View.INVISIBLE);
+        reportBinding.startText.setVisibility(View.INVISIBLE);
+        reportBinding.endText.setVisibility(View.INVISIBLE);
+        reportBinding.weatherText.setVisibility(View.INVISIBLE);
         reportBinding.endDateButton.setVisibility(View.INVISIBLE);
         reportBinding.weatherSpinner.setVisibility(View.INVISIBLE);
 
