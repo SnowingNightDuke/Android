@@ -8,11 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.fit5046.paindiary.databinding.EntryFragmentBinding;
-import com.fit5046.paindiary.viewmodel.SharedViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

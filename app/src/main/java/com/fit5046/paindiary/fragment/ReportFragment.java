@@ -8,10 +8,9 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.fit5046.paindiary.databinding.MapFragmentBinding;
-import com.fit5046.paindiary.viewmodel.SharedViewModel;
 
 public class ReportFragment extends Fragment {
-    private SharedViewModel model;
+
     private MapFragmentBinding reportBinding;
 
     public ReportFragment() {
