@@ -3,6 +3,7 @@ package com.fit5046.paindiary.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,9 +84,9 @@ public class EntryFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         String email = intent.getStringExtra("userEmail");
 
-        PainRecordDatabase db = PainRecordDatabase.getInstance(getActivity().getApplicationContext());
         PainRecord painRecord = new PainRecord(painLevel, painLocation, moodLevel, stepsTaken, date, temperature, humidity, pressure,email);
-        db.painRecordDAO().insert(painRecord);
+        painRecordViewModel.insert(painRecord);
+        //AsyncTask.execute(() -> db.painRecordDAO().insert(painRecord));
     }
 
     private String getTime() {
@@ -96,7 +97,7 @@ public class EntryFragment extends Fragment {
 
     private String moodLevel() {
         String moodString;
-        int rating = entryBinding.moodRatingBar.getNumStars();
+        int rating = (int)(entryBinding.moodRatingBar.getRating());
         switch (rating) {
             case 2:
                 moodString = "low";

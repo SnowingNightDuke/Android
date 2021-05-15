@@ -7,17 +7,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fit5046.paindiary.R;
 import com.fit5046.paindiary.databinding.RecyclerRowBinding;
 import com.fit5046.paindiary.entity.PainRecord;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecordViewHolder> {
     private List<PainRecord> painRecordList;
-    public RecyclerViewAdapter(Context context){}
+    private Context context;
+    public RecyclerViewAdapter(Context context){
+        this.context = context;
+    }
 
     @NonNull
     @Override
@@ -30,8 +36,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull RecordViewHolder holder, int position) {
         PainRecord painRecord = painRecordList.get(position);
         if (painRecord != null) {
-            holder.date
+            holder.date.setText(painRecord.dateOfEntry);
+            holder.intensity.setText(painRecord.painIntensityLevel);
+            holder.painLocation.setText(painRecord.painLocation);
+            holder.mood.setText(painRecord.moodLevel);
+            holder.steps.setText(painRecord.stepsTaken);
+            holder.temperature.setText(painRecord.temperature);
+            holder.humidity.setText(painRecord.humidity);
+            holder.pressure.setText(painRecord.pressure);
+            holder.email.setText(painRecord.userEmail);
         }
+    }
+
+    public void setPainRecordList(List<PainRecord> painRecordList) {
+        this.painRecordList = painRecordList;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -41,10 +60,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class RecordViewHolder extends RecyclerView.ViewHolder {
         TextView date;
-        TextView
+        TextView intensity;
+        TextView painLocation;
+        TextView mood;
+        TextView steps;
+        TextView temperature;
+        TextView humidity;
+        TextView pressure;
+        TextView email;
         public RecordViewHolder(@NonNull View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.dateTextView);
+            intensity = itemView.findViewById(R.id.intensityLevelTextView);
+            painLocation = itemView.findViewById(R.id.painLocationTextView);
+            mood = itemView.findViewById(R.id.moodTextView);
+            steps = itemView.findViewById(R.id.stepTextView);
+            temperature = itemView.findViewById(R.id.temperatureTextView);
+            humidity = itemView.findViewById(R.id.humidityTextView);
+            pressure = itemView.findViewById(R.id.pressureTextView);
+            email = itemView.findViewById(R.id.userEmailTextView);
         }
     }
 }

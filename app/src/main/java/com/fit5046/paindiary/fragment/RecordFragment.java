@@ -25,6 +25,7 @@ import java.util.List;
 public class RecordFragment extends Fragment {
     private RecordFragmemtBinding recordBinding;
     private PainRecordViewModel painRecordViewModel;
+    private RecyclerViewAdapter recyclerViewAdapter;
     public RecordFragment() {
 
     }
@@ -34,9 +35,9 @@ public class RecordFragment extends Fragment {
         View view = recordBinding.getRoot();
         painRecordViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(PainRecordViewModel.class);
         //TODO: observe: the first parameter should be verified. Original: this
-        loadPainRecords();
-        initRecyclerView();
 
+        initRecyclerView();
+        loadPainRecords();
 
 
         return view;
@@ -54,5 +55,12 @@ public class RecordFragment extends Fragment {
     private void loadPainRecords() {
         PainRecordDatabase db = PainRecordDatabase.getInstance(getContext().getApplicationContext());
         LiveData<List<PainRecord>> painRecords = db.painRecordDAO().getAll();
+        painRecordViewModel.getAllPainRecords().observe(getViewLifecycleOwner(), new Observer<List<PainRecord>>() {
+            @Override
+            public void onChanged(List<PainRecord> painRecords) {
+                recyclerViewAdapter.setPainRecordList(painRecords);
+            }
+        });
+        ;
     }
 }
