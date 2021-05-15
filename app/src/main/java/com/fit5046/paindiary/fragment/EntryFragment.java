@@ -13,7 +13,9 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.fit5046.paindiary.database.PainRecordDatabase;
 import com.fit5046.paindiary.databinding.EntryFragmentBinding;
+import com.fit5046.paindiary.entity.PainRecord;
 import com.fit5046.paindiary.viewmodel.PainRecordViewModel;
 
 import java.text.SimpleDateFormat;
@@ -23,6 +25,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.SimpleFormatter;
+
+import static java.lang.Integer.parseInt;
 
 public class EntryFragment extends Fragment {
     private EntryFragmentBinding entryBinding;
@@ -68,7 +72,7 @@ public class EntryFragment extends Fragment {
         int painLevel = entryBinding.levelSeekBar.getProgress();
         String painLocation = entryBinding.locationSpinner.getSelectedItem().toString();
         String moodLevel = moodLevel();
-        String stepsTaken = entryBinding.stepEditText.getText().toString();
+        int stepsTaken = Integer.parseInt(entryBinding.stepEditText.getText().toString());
         String date = getTime();
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("WEATHER_FILE", Context.MODE_PRIVATE);
@@ -78,6 +82,10 @@ public class EntryFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
         String email = intent.getStringExtra("userEmail");
+
+        PainRecordDatabase db = PainRecordDatabase.getInstance(getActivity().getApplicationContext());
+        PainRecord painRecord = new PainRecord(painLevel, painLocation, moodLevel, stepsTaken, date, temperature, humidity, pressure,email);
+        db.painRecordDAO().insert(painRecord);
     }
 
     private String getTime() {
