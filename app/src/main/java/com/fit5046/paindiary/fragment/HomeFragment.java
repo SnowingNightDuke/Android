@@ -32,14 +32,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeBinding = HomeFragmentBinding.inflate(inflater, container, false);
         View view = homeBinding.getRoot();
-        homeBinding.button.setOnClickListener(v -> {
-            getWeather();
-        });
+        getWeather();
         return view;
     }
 
     public void getWeather(){
-        String cityZip = homeBinding.cityZipText.getText().toString().trim() + ",au";
+        // this part can be optimized to use a edittext to gather the input from user and get the location instead of hard coding the location.
+        String cityZip = "3008,au";
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.openweathermap.org/data/2.5/")
                 .addConverterFactory(GsonConverterFactory.create())
