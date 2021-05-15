@@ -48,18 +48,7 @@ public class ReportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         reportBinding = ReportFragmentBinding.inflate(inflater, container, false);
         View view = reportBinding.getRoot();
-        test();
-        initDatePicker();
-        initDatePicker2();
-        reportBinding.startDateButton.setOnClickListener(v -> {
-            datePickerDialog.show();
-            reportBinding.startDateButton.setText(getTodaysDate());
-        });
-        reportBinding.endDateButton.setOnClickListener(v -> {
-            datePickerDialog2.show();
-            reportBinding.endDateButton.setText(getTodaysDate());
-        });
-
+        //test();
 
         painRecordViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(PainRecordViewModel.class);
         painRecordViewModel.getAllPainRecords().observe(getViewLifecycleOwner(), new Observer<List<PainRecord>>() {
@@ -67,7 +56,7 @@ public class ReportFragment extends Fragment {
             public void onChanged(List<PainRecord> painRecords) {
                 statistics(painRecords);
                 retrieveSteps(painRecords);
-                //setupPieChart();
+                setupPieChart();
                 reportBinding.pieButton.setOnClickListener(v -> {
                     setupPieChart();
                 });
@@ -92,6 +81,16 @@ public class ReportFragment extends Fragment {
     }
 
     private void setupLineChart() {
+        initDatePicker();
+        initDatePicker2();
+        reportBinding.startDateButton.setOnClickListener(v -> {
+            datePickerDialog.show();
+            reportBinding.startDateButton.setText(getTodaysDate());
+        });
+        reportBinding.endDateButton.setOnClickListener(v -> {
+            datePickerDialog2.show();
+            reportBinding.endDateButton.setText(getTodaysDate());
+        });
         reportBinding.anyChartView.setVisibility(View.INVISIBLE);
         reportBinding.donutView.setVisibility(View.INVISIBLE);
         reportBinding.startDateButton.setVisibility(View.VISIBLE);
@@ -234,6 +233,11 @@ public class ReportFragment extends Fragment {
     }
 
     public void setupDonutChart() {
+        reportBinding.anyChartView.setVisibility(View.INVISIBLE);
+        reportBinding.startDateButton.setVisibility(View.INVISIBLE);
+        reportBinding.endDateButton.setVisibility(View.INVISIBLE);
+        reportBinding.weatherSpinner.setVisibility(View.INVISIBLE);
+
         PieChart pieChart = reportBinding.donutView;
         List<PieEntry> pieEntries = new ArrayList<>();
         pieEntries.add(new PieEntry(stepsDone,"Steps Taken"));
@@ -252,6 +256,11 @@ public class ReportFragment extends Fragment {
     }
 
     public void setupPieChart() {
+        reportBinding.donutView.setVisibility(View.INVISIBLE);
+        reportBinding.startDateButton.setVisibility(View.INVISIBLE);
+        reportBinding.endDateButton.setVisibility(View.INVISIBLE);
+        reportBinding.weatherSpinner.setVisibility(View.INVISIBLE);
+
         Pie pie = AnyChart.pie();
         List<DataEntry> dataEntries = new ArrayList<>();
         for (int i = 0; i < painLoc.length; i++) {
@@ -262,6 +271,7 @@ public class ReportFragment extends Fragment {
         reportBinding.anyChartView.setChart(pie);
         reportBinding.anyChartView.setVisibility(View.VISIBLE);
         reportBinding.donutView.setVisibility(View.INVISIBLE);
+
     }
 
 }
