@@ -37,8 +37,6 @@ public class RecordFragment extends Fragment {
         //TODO: observe: the first parameter should be verified. Original: this
 
         initRecyclerView();
-        loadPainRecords();
-
 
         return view;
     }
@@ -49,18 +47,13 @@ public class RecordFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         recordBinding.recordRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        recordBinding.recordRecyclerView.setAdapter(new RecyclerViewAdapter(getContext()));
-    }
-
-    private void loadPainRecords() {
-        PainRecordDatabase db = PainRecordDatabase.getInstance(getContext().getApplicationContext());
-        LiveData<List<PainRecord>> painRecords = db.painRecordDAO().getAll();
         painRecordViewModel.getAllPainRecords().observe(getViewLifecycleOwner(), new Observer<List<PainRecord>>() {
             @Override
             public void onChanged(List<PainRecord> painRecords) {
-                recyclerViewAdapter.setPainRecordList(painRecords);
+                recordBinding.recordRecyclerView.setAdapter(new RecyclerViewAdapter(painRecords));
             }
         });
-        ;
+
     }
+
 }

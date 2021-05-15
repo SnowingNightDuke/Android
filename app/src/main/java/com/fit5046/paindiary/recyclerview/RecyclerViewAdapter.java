@@ -18,67 +18,52 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecordViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private List<PainRecord> painRecordList;
-    private Context context;
-    public RecyclerViewAdapter(Context context){
-        this.context = context;
-    }
-
-    @NonNull
-    @Override
-    public RecordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_row,parent,false);
-        return new RecordViewHolder(view);
+    public RecyclerViewAdapter(List<PainRecord> painRecords){
+        this.painRecordList = painRecords;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecordViewHolder holder, int position) {
-        PainRecord painRecord = painRecordList.get(position);
-        if (painRecord != null) {
-            holder.date.setText(painRecord.dateOfEntry);
-            holder.intensity.setText(painRecord.painIntensityLevel);
-            holder.painLocation.setText(painRecord.painLocation);
-            holder.mood.setText(painRecord.moodLevel);
-            holder.steps.setText(painRecord.stepsTaken);
-            holder.temperature.setText(painRecord.temperature);
-            holder.humidity.setText(painRecord.humidity);
-            holder.pressure.setText(painRecord.pressure);
-            holder.email.setText(painRecord.userEmail);
-        }
+    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        RecyclerRowBinding binding = RecyclerRowBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        return new ViewHolder(binding);
     }
 
-    public void setPainRecordList(List<PainRecord> painRecordList) {
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder viewHolder, int position) {
+        final PainRecord painRecord = painRecordList.get(position);
+        viewHolder.binding.idTextView.setText(Integer.toString(painRecord.pid));
+        viewHolder.binding.dateTextView.setText(painRecord.dateOfEntry);
+        viewHolder.binding.painLocationTextView.setText(painRecord.painLocation);;
+        viewHolder.binding.intensityLevelTextView.setText(Integer.toString(painRecord.painIntensityLevel));
+        viewHolder.binding.moodLevelTextView.setText(painRecord.moodLevel);
+        viewHolder.binding.stepsGoalTextView.setText(Integer.toString(painRecord.stepsGoal));
+        viewHolder.binding.stepsTakenTextView.setText(Integer.toString(painRecord.stepsTaken));
+        viewHolder.binding.temperatureTextView.setText(Integer.toString(painRecord.temperature));
+        viewHolder.binding.humidityTextView.setText(Integer.toString(painRecord.humidity));
+        viewHolder.binding.pressureTextView.setText(Integer.toString(painRecord.pressure));
+        viewHolder.binding.userEmailTextView.setText(painRecord.userEmail);
+
+
+    }
+
+    public void addPainRecord(List<PainRecord> painRecordList) {
         this.painRecordList = painRecordList;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return painRecordList.size();
     }
 
-    public class RecordViewHolder extends RecyclerView.ViewHolder {
-        TextView date;
-        TextView intensity;
-        TextView painLocation;
-        TextView mood;
-        TextView steps;
-        TextView temperature;
-        TextView humidity;
-        TextView pressure;
-        TextView email;
-        public RecordViewHolder(@NonNull View itemView) {
-            super(itemView);
-            date = itemView.findViewById(R.id.dateTextView);
-            intensity = itemView.findViewById(R.id.intensityLevelTextView);
-            painLocation = itemView.findViewById(R.id.painLocationTextView);
-            mood = itemView.findViewById(R.id.moodTextView);
-            steps = itemView.findViewById(R.id.stepTextView);
-            temperature = itemView.findViewById(R.id.temperatureTextView);
-            humidity = itemView.findViewById(R.id.humidityTextView);
-            pressure = itemView.findViewById(R.id.pressureTextView);
-            email = itemView.findViewById(R.id.userEmailTextView);
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private RecyclerRowBinding binding;
+        public ViewHolder(RecyclerRowBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+
         }
     }
 }

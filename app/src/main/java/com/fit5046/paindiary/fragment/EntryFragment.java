@@ -73,7 +73,8 @@ public class EntryFragment extends Fragment {
         int painLevel = entryBinding.levelSeekBar.getProgress();
         String painLocation = entryBinding.locationSpinner.getSelectedItem().toString();
         String moodLevel = moodLevel();
-        int stepsTaken = Integer.parseInt(entryBinding.stepEditText.getText().toString());
+        int stepsGoal = Integer.parseInt(entryBinding.stepEditText.getText().toString());
+        int stepsTaken = Integer.parseInt(entryBinding.stepTakenEditText.getText().toString());
         String date = getTime();
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("WEATHER_FILE", Context.MODE_PRIVATE);
@@ -84,7 +85,7 @@ public class EntryFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         String email = intent.getStringExtra("userEmail");
 
-        PainRecord painRecord = new PainRecord(painLevel, painLocation, moodLevel, stepsTaken, date, temperature, humidity, pressure,email);
+        PainRecord painRecord = new PainRecord(painLevel, painLocation, moodLevel, stepsGoal, stepsTaken, date, temperature, humidity, pressure,email);
         painRecordViewModel.insert(painRecord);
         //AsyncTask.execute(() -> db.painRecordDAO().insert(painRecord));
     }
@@ -122,6 +123,7 @@ public class EntryFragment extends Fragment {
         entryBinding.locationSpinner.setEnabled(switcher);
         entryBinding.moodRatingBar.setEnabled(switcher);
         entryBinding.stepEditText.setEnabled(switcher);
+        entryBinding.stepTakenEditText.setEnabled(switcher);
     }
 
     private boolean validation() {

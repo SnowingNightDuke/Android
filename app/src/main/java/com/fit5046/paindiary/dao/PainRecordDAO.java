@@ -30,4 +30,5 @@ public interface PainRecordDAO {
 
     @Query("DELETE FROM painrecord")
     void deleteAll();
+
 }
