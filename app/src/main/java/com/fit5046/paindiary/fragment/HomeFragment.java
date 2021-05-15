@@ -1,5 +1,7 @@
 package com.fit5046.paindiary.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,14 +57,20 @@ public class HomeFragment extends Fragment {
                 Weather data = response.body();
                 Main main = data.getMain();
                 Double absTemp = main.getTemp();
-                int temp = (int)(absTemp - 273.15);
+                int temperature = (int)(absTemp - 273.15);
                 int humidity = main.getHumidity();
                 int pressure = main.getPressure();
-                String weather = "Temperature: " + temp + "°C\n"
+                String weather = "Temperature: " + temperature + "°C\n"
                                 + "Humidity: " + humidity + "%\n"
                                 + "Pressure: " + pressure + "mb";
 
                 homeBinding.weatherTextView.setText(weather);
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("WEATHER_FILE", Context.MODE_PRIVATE);
+                SharedPreferences.Editor spEditor = sharedPreferences.edit();
+                spEditor.putInt("temperature", temperature);
+                spEditor.putInt("humidity", humidity);
+                spEditor.putInt("pressure", pressure);
+                spEditor.apply();
             }
 
             @Override
@@ -70,6 +78,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
     }
 
     @Override

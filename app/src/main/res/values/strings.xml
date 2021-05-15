@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">PainDiary</string>
+    
+    <string-array name="pain_records">
+        <item>Pain ID:</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
 </resources>
