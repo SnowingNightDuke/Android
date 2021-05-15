@@ -1,6 +1,7 @@
 package com.fit5046.paindiary.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,11 @@ import com.anychart.charts.Radar;
 import com.fit5046.paindiary.databinding.ReportFragmentBinding;
 import com.fit5046.paindiary.entity.PainRecord;
 import com.fit5046.paindiary.viewmodel.PainRecordViewModel;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +51,10 @@ public class ReportFragment extends Fragment {
             public void onChanged(List<PainRecord> painRecords) {
                 statistics(painRecords);
                 retrieveSteps(painRecords);
+                setupPieChart();
+                reportBinding.pieButton.setOnClickListener(v -> {
                     setupPieChart();
+                });
                 reportBinding.donutButton.setOnClickListener(v -> {
                     setupDonutChart();
                 });
@@ -104,11 +113,21 @@ public class ReportFragment extends Fragment {
     }
 
     public void setupDonutChart() {
-        CircularGauge circularGauge = AnyChart.circularGauge();
-        List<DataEntry> dataEntries = new ArrayList<>();
-        dataEntries.add(new ValueDataEntry(stepsDone,stepsGoal));
-        circularGauge.title("Steps Taken");
+        PieChart pieChart = reportBinding.donutView;
+        List<PieEntry> pieEntries = new ArrayList<>();
+        pieEntries.add(new PieEntry(stepsDone,"Steps Taken"));
+        pieEntries.add(new PieEntry(stepsGoal, "Steps Goal"));
+        PieDataSet dataSet = new PieDataSet(pieEntries, "Steps Taken");
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
 
+        PieData data = new PieData((dataSet));
+        data.setValueTextSize(10f);
+        data.setValueTextColor(Color.YELLOW);
+        pieChart.setData(data);
+        reportBinding.anyChartView.setVisibility(View.INVISIBLE);
+        reportBinding.donutView.setVisibility(View.VISIBLE);
     }
 
     public void setupPieChart() {
@@ -120,6 +139,8 @@ public class ReportFragment extends Fragment {
         pie.data(dataEntries);
         pie.title("Pain Locations");
         reportBinding.anyChartView.setChart(pie);
+        reportBinding.anyChartView.setVisibility(View.VISIBLE);
+        reportBinding.donutView.setVisibility(View.INVISIBLE);
     }
 
 }
