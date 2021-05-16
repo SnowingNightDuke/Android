@@ -1,19 +1,29 @@
 package com.fit5046.paindiary.fragment;
 
+import android.app.AlarmManager;
+import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.fit5046.paindiary.Alarm.ReminderBroadcast;
 import com.fit5046.paindiary.database.PainRecordDatabase;
 import com.fit5046.paindiary.databinding.EntryFragmentBinding;
 import com.fit5046.paindiary.entity.PainRecord;
@@ -32,6 +42,8 @@ import static java.lang.Integer.parseInt;
 public class EntryFragment extends Fragment {
     private EntryFragmentBinding entryBinding;
     private PainRecordViewModel painRecordViewModel;
+    private int hour, min;
+    private long userSetTime;
     public EntryFragment(){
 
     }
@@ -39,9 +51,9 @@ public class EntryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         entryBinding = EntryFragmentBinding.inflate(inflater, container, false);
         View view = entryBinding.getRoot();
-        //TODO: getApplication need to be verified.
         painRecordViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(PainRecordViewModel.class);
-
+        setTimePicker();
+        createNotificationChannel();
         spinner();
         entryBinding.editButton.setEnabled(false);
         entryBinding.editButton.setOnClickListener(v -> {
@@ -53,6 +65,57 @@ public class EntryFragment extends Fragment {
             save();
         });
         return view;
+    }
+
+
+
+    private void setTimePicker() {
+        //android.R.style.Theme_Holo_Light_Dialog_MinWidth
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                hour = hourOfDay;
+                min = minute;
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(0);
+                calendar.set(Calendar.HOUR_OF_DAY, hour);
+                calendar.set(Calendar.MINUTE, min);
+                //calendar.set(0,0,0,hour,min,00);
+                //calendar.set(0,0,0, hour, min);
+
+                userSetTime = calendar.getTimeInMillis();
+//                if (System.currentTimeMillis() > userSetTime) {
+//                    userSetTime += 24*60*60*1000;
+//                }
+                Intent intent = new Intent(getContext(), ReminderBroadcast.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+                AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+                long twoMinutesInMillis = 1000 * 120;
+
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, userSetTime - twoMinutesInMillis, AlarmManager.INTERVAL_DAY, pendingIntent);
+                //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
+            }
+
+        },12, 0, false);
+        timePickerDialog.updateTime(hour, min);
+        timePickerDialog.show();
+
+
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "paindiaryNotification";
+            String description = "Pain Diary Notification Channel";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel notificationChannel = new NotificationChannel("paindiaryNotification", name, importance);
+            notificationChannel.setDescription(description);
+
+            NotificationManager notificationManager = getContext().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
     }
 
     private void save() {
