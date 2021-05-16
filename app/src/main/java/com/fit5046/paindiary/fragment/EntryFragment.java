@@ -1,17 +1,13 @@
 package com.fit5046.paindiary.fragment;
 
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.fit5046.paindiary.Alarm.ReminderBroadcast;
-import com.fit5046.paindiary.database.PainRecordDatabase;
 import com.fit5046.paindiary.databinding.EntryFragmentBinding;
 import com.fit5046.paindiary.entity.PainRecord;
 import com.fit5046.paindiary.viewmodel.PainRecordViewModel;
@@ -35,9 +30,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.SimpleFormatter;
-
-import static java.lang.Integer.parseInt;
 
 public class EntryFragment extends Fragment {
     private EntryFragmentBinding entryBinding;

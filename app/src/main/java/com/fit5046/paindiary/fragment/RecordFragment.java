@@ -5,16 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.fit5046.paindiary.database.PainRecordDatabase;
 import com.fit5046.paindiary.databinding.RecordFragmemtBinding;
 import com.fit5046.paindiary.entity.PainRecord;
 import com.fit5046.paindiary.recyclerview.RecyclerViewAdapter;

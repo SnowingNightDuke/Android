@@ -6,7 +6,6 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
-import com.fit5046.paindiary.R;
 import com.fit5046.paindiary.dao.PainRecordDAO;
 import com.fit5046.paindiary.database.PainRecordDatabase;
 import com.fit5046.paindiary.entity.PainRecord;

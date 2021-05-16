@@ -1,5 +1,8 @@
 package com.fit5046.paindiary;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
@@ -7,12 +10,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
 import com.fit5046.paindiary.databinding.ActivityHomeBinding;
-import com.fit5046.paindiary.databinding.AppBarMainBinding;
 
 public class Home extends AppCompatActivity {
     private ActivityHomeBinding binding;

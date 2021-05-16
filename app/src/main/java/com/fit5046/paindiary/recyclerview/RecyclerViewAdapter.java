@@ -1,20 +1,13 @@
 package com.fit5046.paindiary.recyclerview;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fit5046.paindiary.R;
 import com.fit5046.paindiary.databinding.RecyclerRowBinding;
 import com.fit5046.paindiary.entity.PainRecord;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
