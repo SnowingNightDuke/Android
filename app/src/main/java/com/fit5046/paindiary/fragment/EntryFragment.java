@@ -82,8 +82,8 @@ public class EntryFragment extends Fragment {
                 calendar.set(Calendar.MINUTE, min);
                 //calendar.set(0,0,0,hour,min,00);
                 //calendar.set(0,0,0, hour, min);
-
-                userSetTime = calendar.getTimeInMillis();
+                long twoMinutesInMillis = 1000 * 60;
+                userSetTime = calendar.getTimeInMillis() - twoMinutesInMillis;
 //                if (System.currentTimeMillis() > userSetTime) {
 //                    userSetTime += 24*60*60*1000;
 //                }
@@ -92,10 +92,8 @@ public class EntryFragment extends Fragment {
 
                 AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
-                long twoMinutesInMillis = 1000 * 120;
-
-                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, userSetTime - twoMinutesInMillis, AlarmManager.INTERVAL_DAY, pendingIntent);
-                //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
+                //alarmManager.set(AlarmManager.RTC_WAKEUP, userSetTime - twoMinutesInMillis, pendingIntent);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, userSetTime, AlarmManager.INTERVAL_DAY, pendingIntent);
             }
 
         },12, 0, false);
@@ -106,23 +104,19 @@ public class EntryFragment extends Fragment {
     }
 
     private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "paindiaryNotification";
-            String description = "Pain Diary Notification Channel";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel notificationChannel = new NotificationChannel("paindiaryNotification", name, importance);
-            notificationChannel.setDescription(description);
+        CharSequence name = "paindiaryNotification";
+        String description = "Pain Diary Notification Channel";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel notificationChannel = new NotificationChannel("paindiaryNotification", name, importance);
+        notificationChannel.setDescription(description);
 
-            NotificationManager notificationManager = getContext().getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(notificationChannel);
-        }
+        NotificationManager notificationManager = getContext().getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(notificationChannel);
     }
 
     private void save() {
-        //TODO: validate if all the required data has been input in field respectively
         if (validation()) {
             Toast.makeText(getContext(), "Successfully saved", Toast.LENGTH_LONG).show();
-            //TODO: Disable input and pass data to room
             editingSwitcher(false);
             entryBinding.saveButton.setEnabled(false);
             entryBinding.editButton.setEnabled(true);
@@ -150,7 +144,6 @@ public class EntryFragment extends Fragment {
 
         PainRecord painRecord = new PainRecord(painLevel, painLocation, moodLevel, stepsGoal, stepsTaken, date, temperature, humidity, pressure,email);
         painRecordViewModel.insert(painRecord);
-        //AsyncTask.execute(() -> db.painRecordDAO().insert(painRecord));
     }
 
     private String getTime() {
@@ -190,7 +183,16 @@ public class EntryFragment extends Fragment {
     }
 
     private boolean validation() {
-        return true;
+        boolean token;
+        if (entryBinding.stepTakenEditText.getText().toString().equals(""))
+            token = false;
+        else if (entryBinding.stepEditText.getText().toString().equals(""))
+            token = false;
+        else if (entryBinding.moodRatingBar.getRating()==0)
+            token = false;
+        else
+            token = true;
+        return token;
     }
 
 
