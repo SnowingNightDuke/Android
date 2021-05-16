@@ -48,7 +48,9 @@ public class MapFragment extends Fragment {
         Mapbox.getInstance(getContext(), token);
         mapBinding = MapFragmentBinding.inflate(inflater, container, false);
         View view = mapBinding.getRoot();
-        //final LatLng latLng = new LatLng(lat, lng);
+        mapBinding.floatingButton.setOnClickListener(v -> {
+            requestAddress();
+        });
         requestAddress();
         geocoder = new Geocoder(getContext());
         mapBinding.mapView.onCreate(savedInstanceState);
@@ -92,6 +94,32 @@ public class MapFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 location = input.getText().toString();
+                mapBinding.mapView.getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(@NonNull final MapboxMap mapboxMap) {
+
+                        mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
+                            @Override
+                            public void onStyleLoaded(@NonNull Style style) {
+                                try {
+                                    List<Address> addresses = geocoder.getFromLocationName(location, 10);
+                                    Address address = addresses.get(0);
+                                    LatLng newLatLng = new LatLng(address.getLatitude(), address.getLongitude());
+                                    MarkerOptions markerOptions = new MarkerOptions()
+                                            .position(newLatLng)
+                                            .title(address.getLocality());
+                                    mapboxMap.addMarker(markerOptions);
+                                    mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLatLng, 13));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                //CameraPosition position = new CameraPosition.Builder().target(latLng).zoom(13).build();
+                                //mapboxMap.setCameraPosition(position);
+                            }
+                        });
+
+                    }
+                });
                 //Toast.makeText(getContext(), "")
             }
         });
