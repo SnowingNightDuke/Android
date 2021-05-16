@@ -37,6 +37,7 @@ apply plugin: 'com.google.gms.google-services'
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-database:19.2.1'
     def room_version = "2.3.0"
 
     implementation platform('com.google.firebase:firebase-bom:26.8.0')
@@ -68,6 +69,7 @@ dependencies {
     }
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v9:0.9.0'
     implementation 'androidx.work:work-runtime:2.5.0'
+    implementation 'net.danlew:android.joda:2.10.9.1'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

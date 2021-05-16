@@ -2,6 +2,13 @@ package com.fit5046.paindiary;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.state.State;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.work.Constraints;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,25 +18,39 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anychart.scales.DateTime;
+import com.fit5046.paindiary.backgroundwork.SyncTask;
 import com.fit5046.paindiary.databinding.ActivityMainBinding;
+import com.fit5046.paindiary.entity.PainRecord;
+import com.fit5046.paindiary.viewmodel.PainRecordViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.time.Duration;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private FirebaseAuth mAuth;
     private static final String TAG = "MainActivity";
     public String email;
+    public List<PainRecord> syncData;
+    private String uid;
+    private FirebaseDatabase database;
+    private PainRecordViewModel painRecordViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
+        syncTask();
         mAuth = FirebaseAuth.getInstance();
 
         binding.regButton.setOnClickListener(v -> {
@@ -76,10 +97,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void syncTask() {
+        database = FirebaseDatabase.getInstance();
+        painRecordViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication()).create(PainRecordViewModel.class);
+        painRecordViewModel.getAllPainRecords().observe(this, new Observer<List<PainRecord>>() {
+            @Override
+            public void onChanged(List<PainRecord> painRecords) {
+                List<PainRecord> syncData = painRecords;
+                for (PainRecord painRecord : painRecords) {
+                    String painId = String.valueOf(painRecord.pid);
+                    DatabaseReference reference = database.getReference(uid);
+                    reference.child(painId).setValue(painRecord);
+                }
+            }
+        });
+    }
+    public List<PainRecord> getSyncData() {
+        return syncData;
+    }
+
+    public String getUID() {
+        return uid;
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        uid = currentUser.getUid();
         if (currentUser != null) {
             mAuth.getCurrentUser().reload();
         }

@@ -49,8 +49,6 @@ public class ReportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         reportBinding = ReportFragmentBinding.inflate(inflater, container, false);
         View view = reportBinding.getRoot();
-        //test();
-
         painRecordViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(PainRecordViewModel.class);
         painRecordViewModel.getAllPainRecords().observe(getViewLifecycleOwner(), new Observer<List<PainRecord>>() {
             @Override
@@ -103,11 +101,6 @@ public class ReportFragment extends Fragment {
         spinner();
     }
 
-    private void test() {
-        reportBinding.anyChartView.setVisibility(View.INVISIBLE);
-        reportBinding.donutView.setVisibility(View.INVISIBLE);
-    }
-
     private String getTodaysDate() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -130,7 +123,6 @@ public class ReportFragment extends Fragment {
                 month = month + 1;
                 String date = makeDateString(dayOfMonth, month, year);
                 reportBinding.startDateButton.setText(date);
-
             }
         };
 

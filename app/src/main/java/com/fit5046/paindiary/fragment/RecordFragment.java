@@ -25,7 +25,6 @@ import java.util.List;
 public class RecordFragment extends Fragment {
     private RecordFragmemtBinding recordBinding;
     private PainRecordViewModel painRecordViewModel;
-    private RecyclerViewAdapter recyclerViewAdapter;
     public RecordFragment() {
 
     }
@@ -34,7 +33,6 @@ public class RecordFragment extends Fragment {
         recordBinding = recordBinding.inflate(inflater, container, false);
         View view = recordBinding.getRoot();
         painRecordViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(PainRecordViewModel.class);
-        //TODO: observe: the first parameter should be verified. Original: this
 
         initRecyclerView();
 
@@ -53,7 +51,6 @@ public class RecordFragment extends Fragment {
                 recordBinding.recordRecyclerView.setAdapter(new RecyclerViewAdapter(painRecords));
             }
         });
-
     }
 
 }
