@@ -43,7 +43,6 @@ public class EntryFragment extends Fragment {
     private EntryFragmentBinding entryBinding;
     private PainRecordViewModel painRecordViewModel;
     private int hour, min;
-    private long userSetTime;
     public EntryFragment(){
 
     }
@@ -79,21 +78,14 @@ public class EntryFragment extends Fragment {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(0);
                 calendar.set(Calendar.HOUR_OF_DAY, hour);
-                calendar.set(Calendar.MINUTE, min);
-                //calendar.set(0,0,0,hour,min,00);
-                //calendar.set(0,0,0, hour, min);
-                long twoMinutesInMillis = 1000 * 60;
-                userSetTime = calendar.getTimeInMillis() - twoMinutesInMillis;
-//                if (System.currentTimeMillis() > userSetTime) {
-//                    userSetTime += 24*60*60*1000;
-//                }
+                calendar.set(Calendar.MINUTE, min - 2);
+
                 Intent intent = new Intent(getContext(), ReminderBroadcast.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 100, intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
                 AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
-                //alarmManager.set(AlarmManager.RTC_WAKEUP, userSetTime - twoMinutesInMillis, pendingIntent);
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, userSetTime, AlarmManager.INTERVAL_DAY, pendingIntent);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
             }
 
         },12, 0, false);
@@ -122,7 +114,7 @@ public class EntryFragment extends Fragment {
             entryBinding.editButton.setEnabled(true);
             sendData();
         } else {
-            Toast.makeText(getContext(), "Save Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Save Failed: Required Fields not filled", Toast.LENGTH_LONG).show();
         }
     }
 
