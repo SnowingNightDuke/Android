@@ -22,6 +22,7 @@ import com.fit5046.paindiary.databinding.ReportFragmentBinding;
 import com.fit5046.paindiary.entity.PainRecord;
 import com.fit5046.paindiary.viewmodel.PainRecordViewModel;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -257,6 +258,10 @@ public class ReportFragment extends Fragment {
         data.setValueTextSize(10f);
         data.setValueTextColor(Color.YELLOW);
         pieChart.setData(data);
+        Description description = pieChart.getDescription();
+        description.setText("Steps Taken");
+        description.setEnabled(true);
+        description.setPosition(600,150);
         reportBinding.anyChartView.setVisibility(View.INVISIBLE);
         reportBinding.donutView.setVisibility(View.VISIBLE);
     }
