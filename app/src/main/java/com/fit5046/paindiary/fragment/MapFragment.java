@@ -34,8 +34,6 @@ import java.util.List;
 public class MapFragment extends Fragment {
 
     private MapFragmentBinding mapBinding;
-//    private double lat;
-//    private double lng;
     private String location = "Melbourne";
     private Geocoder geocoder;
     private final String TAG = "Map";
@@ -57,7 +55,6 @@ public class MapFragment extends Fragment {
         mapBinding.mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-
                 mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
@@ -73,11 +70,8 @@ public class MapFragment extends Fragment {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        //CameraPosition position = new CameraPosition.Builder().target(latLng).zoom(13).build();
-                        //mapboxMap.setCameraPosition(position);
                     }
                 });
-
             }
         });
         return view;
@@ -94,33 +88,32 @@ public class MapFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 location = input.getText().toString();
-                mapBinding.mapView.getMapAsync(new OnMapReadyCallback() {
-                    @Override
-                    public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-
-                        mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
-                            @Override
-                            public void onStyleLoaded(@NonNull Style style) {
-                                try {
-                                    List<Address> addresses = geocoder.getFromLocationName(location, 10);
-                                    Address address = addresses.get(0);
-                                    LatLng newLatLng = new LatLng(address.getLatitude(), address.getLongitude());
-                                    MarkerOptions markerOptions = new MarkerOptions()
-                                            .position(newLatLng)
-                                            .title(address.getLocality());
-                                    mapboxMap.addMarker(markerOptions);
-                                    mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLatLng, 13));
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                if (isAlpha(location)) {
+                    mapBinding.mapView.getMapAsync(new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(@NonNull final MapboxMap mapboxMap) {
+                            mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
+                                @Override
+                                public void onStyleLoaded(@NonNull Style style) {
+                                    try {
+                                        List<Address> addresses = geocoder.getFromLocationName(location, 10);
+                                        Address address = addresses.get(0);
+                                        LatLng newLatLng = new LatLng(address.getLatitude(), address.getLongitude());
+                                        MarkerOptions markerOptions = new MarkerOptions()
+                                                .position(newLatLng)
+                                                .title(address.getLocality());
+                                        mapboxMap.addMarker(markerOptions);
+                                        mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLatLng, 13));
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                                //CameraPosition position = new CameraPosition.Builder().target(latLng).zoom(13).build();
-                                //mapboxMap.setCameraPosition(position);
-                            }
-                        });
-
-                    }
-                });
-                //Toast.makeText(getContext(), "")
+                            });
+                        }
+                    });
+                }
+                else
+                    Toast.makeText(getContext(), "Please check your address input and try again", Toast.LENGTH_SHORT).show();
             }
         });
         dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -130,6 +123,10 @@ public class MapFragment extends Fragment {
             }
         });
         dialog.show();
+    }
+
+    public boolean isAlpha(String name) {
+        return name.matches("[a-zA-Z]+");
     }
 
     @Override
