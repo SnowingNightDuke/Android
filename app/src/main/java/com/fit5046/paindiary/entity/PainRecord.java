@@ -11,7 +11,6 @@ public class PainRecord {
     public int pid;
 
     @ColumnInfo(name = "pain_intensity_level")
-    @NonNull
     public int painIntensityLevel;
 
     @ColumnInfo(name = "pain_location")
@@ -23,11 +22,9 @@ public class PainRecord {
     public String moodLevel;
 
     @ColumnInfo(name = "steps_goal")
-    @NonNull
     public int stepsGoal;
 
     @ColumnInfo(name = "steps_taken")
-    @NonNull
     public int stepsTaken;
 
     @ColumnInfo(name = "date_of_entry")
@@ -35,25 +32,22 @@ public class PainRecord {
     public String dateOfEntry;
 
     @ColumnInfo(name = "temperature")
-    @NonNull
     public int temperature;
 
     @ColumnInfo(name = "humidity")
-    @NonNull
     public int humidity;
 
     @ColumnInfo(name = "pressure")
-    @NonNull
     public int pressure;
 
     @ColumnInfo(name = "user_email")
     @NonNull
     public String userEmail;
 
-    public PainRecord(@NonNull int painIntensityLevel,
-                      @NonNull String painLocation, @NonNull String moodLevel, @NonNull int stepsGoal, @NonNull int stepsTaken,
-                      @NonNull String dateOfEntry, @NonNull int temperature, @NonNull int humidity,
-                      @NonNull int pressure, @NonNull String userEmail) {
+    public PainRecord(int painIntensityLevel,
+                      @NonNull String painLocation, @NonNull String moodLevel, int stepsGoal, int stepsTaken,
+                      @NonNull String dateOfEntry, int temperature, int humidity,
+                      int pressure, @NonNull String userEmail) {
         this.painIntensityLevel = painIntensityLevel;
         this.painLocation = painLocation;
         this.moodLevel = moodLevel;

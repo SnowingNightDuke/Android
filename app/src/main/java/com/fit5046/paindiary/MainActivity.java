@@ -109,13 +109,13 @@ public class MainActivity extends AppCompatActivity {
         return uid;
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        uid = currentUser.getUid();
-        if (currentUser != null) {
-            mAuth.getCurrentUser().reload();
-        }
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        uid = currentUser.getUid();
+//        if (currentUser != null) {
+//            mAuth.getCurrentUser().reload();
+//        }
+//    }
 }

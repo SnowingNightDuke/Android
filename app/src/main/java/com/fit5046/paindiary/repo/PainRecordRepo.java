@@ -47,12 +47,8 @@ public class PainRecordRepo {
     }
 
     public void deleteAll() {
-        PainRecordDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                painRecordDAO.deleteAll();
-            }
-        });
+        //Lambda expression
+        PainRecordDatabase.databaseWriteExecutor.execute(() -> painRecordDAO.deleteAll());
     }
 
     public void updatePainRecord(final PainRecord painRecord) {

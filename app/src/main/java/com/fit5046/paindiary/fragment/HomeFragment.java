@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void getWeather(){
-        // this part can be optimized to use a edittext to gather the input from user and get the location instead of hard coding the location.
+        // this part can be optimized to use an edittext to gather the input from user and get the location instead of hard coding the location.
         String cityZip = "3008,au";
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.openweathermap.org/data/2.5/")

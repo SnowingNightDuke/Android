@@ -37,8 +37,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.binding.humidityTextView.setText(Integer.toString(painRecord.humidity));
         viewHolder.binding.pressureTextView.setText(Integer.toString(painRecord.pressure));
         viewHolder.binding.userEmailTextView.setText(painRecord.userEmail);
-
-
     }
 
     public void addPainRecord(List<PainRecord> painRecordList) {
@@ -56,7 +54,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(RecyclerRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-
         }
     }
 }

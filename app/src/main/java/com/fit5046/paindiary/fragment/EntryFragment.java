@@ -42,7 +42,9 @@ public class EntryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         entryBinding = EntryFragmentBinding.inflate(inflater, container, false);
         View view = entryBinding.getRoot();
-        painRecordViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(PainRecordViewModel.class);
+        painRecordViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity()
+                .getApplication())
+                .create(PainRecordViewModel.class);
         setTimePicker();
         createNotificationChannel();
         spinner();

@@ -29,9 +29,12 @@ public class Home extends AppCompatActivity {
                 R.id.nav_record_fragment,
                 R.id.nav_report_fragment)
                 .setOpenableLayout(binding.drawerLayout).build();
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         NavHostFragment navHostFragment = (NavHostFragment) fragmentManager.findFragmentById(R.id.nav_host_fragment);
+
         NavController navController = navHostFragment.getNavController();
+        
         NavigationUI.setupWithNavController(binding.navView, navController);
         NavigationUI.setupWithNavController(binding.appBar.toolbar, navController, mAppBarConfiguration);
     }
